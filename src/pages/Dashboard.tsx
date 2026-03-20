@@ -23,12 +23,12 @@ const fadeUp = {
 };
 
 const actionCards = [
-  { title: "Apply for License", desc: "Start a new application", icon: FileText, path: "/licensing", color: "bg-primary" },
-  { title: "Manage Spectrum", desc: "ASMS frequency tools", icon: Radio, path: "/spectrum", color: "bg-secondary" },
-  { title: "Register Domain", desc: "Search .bw domains", icon: Globe, path: "/domains", color: "bg-accent" },
-  { title: "File Complaint", desc: "Report an issue", icon: AlertTriangle, path: "/complaints", color: "bg-destructive" },
-  { title: "View Tenders", desc: "Browse opportunities", icon: Briefcase, path: "/tenders", color: "bg-primary" },
-  { title: "Network Quality", desc: "QoS insights & maps", icon: BarChart3, path: "/qos", color: "bg-secondary" },
+  { title: "Apply for License", desc: "Start a new application", icon: FileText, path: "/portal/licensing", color: "bg-primary" },
+  { title: "Manage Spectrum", desc: "ASMS frequency tools", icon: Radio, path: "/portal/spectrum", color: "bg-secondary" },
+  { title: "Register Domain", desc: "Search .bw domains", icon: Globe, path: "/portal/domains", color: "bg-accent" },
+  { title: "File Complaint", desc: "Report an issue", icon: AlertTriangle, path: "/portal/complaints", color: "bg-destructive" },
+  { title: "View Tenders", desc: "Browse opportunities", icon: Briefcase, path: "/portal/tenders", color: "bg-primary" },
+  { title: "Network Quality", desc: "QoS insights & maps", icon: BarChart3, path: "/portal/qos", color: "bg-secondary" },
 ];
 
 const widgets = [

@@ -1,31 +1,20 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
-  LayoutDashboard,
-  FileText,
-  Radio,
-  Globe,
-  BarChart3,
-  AlertTriangle,
-  Briefcase,
-  FolderOpen,
-  ChevronLeft,
-  ChevronRight,
+  LayoutDashboard, FileText, Briefcase, AlertTriangle, Users,
+  ChevronLeft, ChevronRight, Shield, LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { title: "Dashboard", path: "/portal", icon: LayoutDashboard },
-  { title: "Licensing", path: "/portal/licensing", icon: FileText },
-  { title: "Spectrum (ASMS)", path: "/portal/spectrum", icon: Radio },
-  { title: "Domains", path: "/portal/domains", icon: Globe },
-  { title: "QoS Insights", path: "/portal/qos", icon: BarChart3 },
-  { title: "Complaints", path: "/portal/complaints", icon: AlertTriangle },
-  { title: "Tenders", path: "/portal/tenders", icon: Briefcase },
-  { title: "Documents", path: "/portal/documents", icon: FolderOpen },
+  { title: "Overview", path: "/admin", icon: LayoutDashboard },
+  { title: "License Applications", path: "/admin/licenses", icon: FileText },
+  { title: "Tenders Management", path: "/admin/tenders", icon: Briefcase },
+  { title: "Complaints", path: "/admin/complaints", icon: AlertTriangle },
+  { title: "User Management", path: "/admin/users", icon: Users },
 ];
 
-export function AppSidebar() {
+export function AdminSidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
 
@@ -39,13 +28,14 @@ export function AppSidebar() {
       {/* Logo */}
       <div className="h-16 flex items-center px-4 border-b border-border">
         <div className="flex items-center gap-3 overflow-hidden">
-          <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center flex-shrink-0">
-            <span className="text-primary-foreground font-bold text-sm">B</span>
+          <div className="w-9 h-9 rounded-xl bg-destructive flex items-center justify-center flex-shrink-0">
+            <Shield className="w-4 h-4 text-destructive-foreground" />
           </div>
           {!collapsed && (
-            <span className="font-bold text-foreground tracking-tight text-lg whitespace-nowrap">
-              BOCRA
-            </span>
+            <div>
+              <span className="font-bold text-foreground tracking-tight text-sm whitespace-nowrap">BOCRA Admin</span>
+              <p className="text-[10px] text-muted-foreground leading-none">Management Portal</p>
+            </div>
           )}
         </div>
       </div>
@@ -72,8 +62,15 @@ export function AppSidebar() {
         })}
       </nav>
 
-      {/* Collapse toggle */}
-      <div className="p-3 border-t border-border">
+      {/* Bottom */}
+      <div className="p-3 border-t border-border space-y-1">
+        <Link
+          to="/"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
+        >
+          <LogOut className="w-5 h-5 flex-shrink-0" />
+          {!collapsed && <span>Sign Out</span>}
+        </Link>
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="w-full flex items-center justify-center py-2 rounded-xl text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"

@@ -3,14 +3,14 @@ import { Link, useLocation } from "react-router-dom";
 import { Search, Bell, Menu, X, LayoutDashboard, FileText, Radio, Globe, BarChart3, AlertTriangle, Briefcase, FolderOpen } from "lucide-react";
 
 const navItems = [
-  { title: "Dashboard", path: "/", icon: LayoutDashboard },
-  { title: "Licensing", path: "/licensing", icon: FileText },
-  { title: "Spectrum", path: "/spectrum", icon: Radio },
-  { title: "Domains", path: "/domains", icon: Globe },
-  { title: "QoS", path: "/qos", icon: BarChart3 },
-  { title: "Complaints", path: "/complaints", icon: AlertTriangle },
-  { title: "Tenders", path: "/tenders", icon: Briefcase },
-  { title: "Documents", path: "/documents", icon: FolderOpen },
+  { title: "Dashboard", path: "/portal", icon: LayoutDashboard },
+  { title: "Licensing", path: "/portal/licensing", icon: FileText },
+  { title: "Spectrum", path: "/portal/spectrum", icon: Radio },
+  { title: "Domains", path: "/portal/domains", icon: Globe },
+  { title: "QoS", path: "/portal/qos", icon: BarChart3 },
+  { title: "Complaints", path: "/portal/complaints", icon: AlertTriangle },
+  { title: "Tenders", path: "/portal/tenders", icon: Briefcase },
+  { title: "Documents", path: "/portal/documents", icon: FolderOpen },
 ];
 
 export function TopNav() {
