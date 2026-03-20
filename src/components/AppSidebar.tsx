@@ -15,14 +15,14 @@ import {
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { title: "Dashboard", path: "/", icon: LayoutDashboard },
-  { title: "Licensing", path: "/licensing", icon: FileText },
-  { title: "Spectrum (ASMS)", path: "/spectrum", icon: Radio },
-  { title: "Domains", path: "/domains", icon: Globe },
-  { title: "QoS Insights", path: "/qos", icon: BarChart3 },
-  { title: "Complaints", path: "/complaints", icon: AlertTriangle },
-  { title: "Tenders", path: "/tenders", icon: Briefcase },
-  { title: "Documents", path: "/documents", icon: FolderOpen },
+  { title: "Dashboard", path: "/portal", icon: LayoutDashboard },
+  { title: "Licensing", path: "/portal/licensing", icon: FileText },
+  { title: "Spectrum (ASMS)", path: "/portal/spectrum", icon: Radio },
+  { title: "Domains", path: "/portal/domains", icon: Globe },
+  { title: "QoS Insights", path: "/portal/qos", icon: BarChart3 },
+  { title: "Complaints", path: "/portal/complaints", icon: AlertTriangle },
+  { title: "Tenders", path: "/portal/tenders", icon: Briefcase },
+  { title: "Documents", path: "/portal/documents", icon: FolderOpen },
 ];
 
 export function AppSidebar() {
