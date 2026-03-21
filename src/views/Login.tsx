@@ -1,7 +1,12 @@
+/*
+ * Renders the BOCRA login form and authenticates against the Spring Boot API.
+ */
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, ArrowRight } from "lucide-react";
+import { toast } from "@/components/ui/sonner";
+import { login, persistSession } from "@/lib/api";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 16, filter: "blur(4px)" },
@@ -13,15 +18,29 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulated login — route based on toggle
-    if (isAdmin) {
-      navigate("/admin");
-    } else {
-      navigate("/portal");
+
+    try {
+      setIsSubmitting(true);
+      const response = await login({ email, password });
+      const role = response.user.user.role;
+
+      if (isAdmin && !["ADMIN", "SUPER_ADMIN", "STAFF", "REVIEWER"].includes(role)) {
+        toast.error("This account does not have admin portal access.");
+        return;
+      }
+
+      persistSession(response);
+      toast.success("Signed in successfully.");
+      navigate(isAdmin ? "/admin" : "/portal");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Unable to sign in.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -111,9 +130,10 @@ export default function Login() {
 
             <button
               type="submit"
+              disabled={isSubmitting}
               className="w-full py-2.5 rounded-xl bg-primary text-primary-foreground font-medium text-sm hover:shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2"
             >
-              {isAdmin ? "Sign in as Admin" : "Sign In"} <ArrowRight className="w-4 h-4" />
+              {isSubmitting ? "Signing In..." : isAdmin ? "Sign in as Admin" : "Sign In"} <ArrowRight className="w-4 h-4" />
             </button>
           </form>
 
