@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bocraGradient" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0f766e" />
+      <stop offset="1" stop-color="#0f3d56" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="18" fill="url(#bocraGradient)" />
+  <path d="M21 16h15c7.2 0 12 4.1 12 10.2 0 4.2-2.2 7.2-5.9 8.6 4.7 1.2 7.4 4.6 7.4 9.3 0 7.1-5.6 11.9-14 11.9H21V16zm8.6 7.1v8.6h5.9c2.7 0 4.2-1.6 4.2-4.2s-1.6-4.4-4.3-4.4h-5.8zm0 15.2v10.2h6.9c3.1 0 4.9-1.9 4.9-4.9s-1.9-5.3-5.2-5.3h-6.6z" fill="#f8fafc" />
+  <circle cx="49" cy="17" r="4" fill="#fbbf24" />
+</svg>

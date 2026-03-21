@@ -160,7 +160,7 @@ export function AIChatBubble() {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] as const }}
             className={`fixed bottom-6 right-6 z-50 ${panelSize} glass-panel flex flex-col shadow-2xl overflow-hidden transition-all duration-300`}
           >
             {/* Header */}

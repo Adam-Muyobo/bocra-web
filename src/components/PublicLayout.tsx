@@ -1,13 +1,12 @@
-import { Outlet } from "react-router-dom";
 import { PublicNav } from "./PublicNav";
 import { AIChatBubble } from "./AIChatBubble";
 
-export function PublicLayout() {
+export function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <PublicNav />
       <main className="flex-1">
-        <Outlet />
+        {children}
       </main>
       {/* Footer */}
       <footer className="border-t border-border bg-card">
