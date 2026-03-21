@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   FileText,
@@ -11,6 +11,7 @@ import {
   FolderOpen,
   ChevronLeft,
   ChevronRight,
+  LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -28,6 +29,11 @@ const navItems = [
 export function AppSidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    navigate("/");
+  };
 
   return (
     <aside
@@ -38,7 +44,7 @@ export function AppSidebar() {
     >
       {/* Logo */}
       <div className="h-16 flex items-center px-4 border-b border-border">
-        <div className="flex items-center gap-3 overflow-hidden">
+        <Link to="/portal" className="flex items-center gap-3 overflow-hidden">
           <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center flex-shrink-0">
             <span className="text-primary-foreground font-bold text-sm">B</span>
           </div>
@@ -47,7 +53,7 @@ export function AppSidebar() {
               BOCRA
             </span>
           )}
-        </div>
+        </Link>
       </div>
 
       {/* Nav */}
@@ -72,8 +78,18 @@ export function AppSidebar() {
         })}
       </nav>
 
-      {/* Collapse toggle */}
-      <div className="p-3 border-t border-border">
+      {/* Bottom: Logout + Collapse */}
+      <div className="p-3 border-t border-border space-y-1">
+        <button
+          onClick={handleLogout}
+          className={cn(
+            "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-destructive hover:bg-destructive/10 transition-colors",
+            collapsed && "justify-center"
+          )}
+        >
+          <LogOut className="w-5 h-5 flex-shrink-0" />
+          {!collapsed && <span>Sign Out</span>}
+        </button>
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="w-full flex items-center justify-center py-2 rounded-xl text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
