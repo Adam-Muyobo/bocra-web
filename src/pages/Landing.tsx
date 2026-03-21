@@ -2,8 +2,12 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   FileText, Radio, Globe, BarChart3, AlertTriangle, Briefcase,
-  ArrowRight, Shield, Wifi, Users, ChevronRight,
+  ArrowRight, Shield, Wifi, Users, ChevronRight, Zap, Phone,
 } from "lucide-react";
+import heroImage from "@/assets/hero-meeting.jpg";
+import telecomEngineer from "@/assets/telecom-engineer.jpg";
+import digitalCommunity from "@/assets/digital-community.jpg";
+import gaboroneSkyline from "@/assets/gaborone-skyline.jpg";
 
 const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.08 } } };
 const fadeUp = {
@@ -30,12 +34,15 @@ const stats = [
 export default function Landing() {
   return (
     <motion.div initial="hidden" animate="visible" variants={stagger}>
-      {/* Hero */}
+      {/* Hero with image */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
-        <div className="max-w-7xl mx-auto px-4 md:px-6 py-20 md:py-32 relative">
+        <div className="absolute inset-0">
+          <img src={heroImage} alt="BOCRA regulatory professionals in boardroom meeting" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--background))]/95 via-[hsl(var(--background))]/80 to-[hsl(var(--background))]/40" />
+        </div>
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-24 md:py-36 relative">
           <motion.div variants={fadeUp} className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium mb-6 backdrop-blur-sm">
               <Shield className="w-3.5 h-3.5" />
               Regulating for a Connected Botswana
             </div>
@@ -45,8 +52,8 @@ export default function Landing() {
               Services
             </h1>
             <p className="mt-6 text-lg text-muted-foreground max-w-2xl leading-relaxed">
-              Access licensing, spectrum management, domain registration, and more — all from one unified platform. 
-              <span className="block mt-1">Fitlhelela ditirelo tsa rona mo lefelong le le lengwe fela.</span>
+              Access licensing, spectrum management, domain registration, and more — all from one unified platform.
+              <span className="block mt-1 italic">Fitlhelela ditirelo tsa rona mo lefelong le le lengwe fela.</span>
             </p>
             <div className="flex flex-wrap gap-3 mt-8">
               <Link
@@ -57,7 +64,7 @@ export default function Landing() {
               </Link>
               <Link
                 to="/about"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-muted text-foreground font-medium text-sm hover:bg-muted/80 transition-colors"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-card/80 backdrop-blur-sm text-foreground font-medium text-sm hover:bg-card transition-colors border border-border"
               >
                 Learn More
               </Link>
@@ -81,34 +88,71 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Services */}
+      {/* Connecting Botswana section with images */}
       <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-24">
-        <motion.div variants={fadeUp} className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-foreground tracking-tight">Our Services</h2>
-          <p className="text-muted-foreground mt-2 max-w-xl mx-auto">
-            Everything you need to interact with BOCRA, streamlined into one platform.
-          </p>
-        </motion.div>
-        <motion.div variants={fadeUp} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {services.map((s) => (
-            <Link key={s.title} to={s.path}>
-              <div className="glass-panel p-6 hover-lift group cursor-pointer h-full">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                  <s.icon className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="font-semibold text-foreground text-base">{s.title}</h3>
-                <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{s.desc}</p>
-                <div className="flex items-center gap-1 mt-4 text-xs font-medium text-primary">
-                  {s.title === "Tenders" ? "Browse tenders" : "Sign in to access"} <ChevronRight className="w-3.5 h-3.5" />
-                </div>
+        <motion.div variants={fadeUp} className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 text-accent text-xs font-medium mb-4">
+              <Zap className="w-3.5 h-3.5" />
+              Connecting Every Corner
+            </div>
+            <h2 className="text-3xl font-bold text-foreground tracking-tight">
+              Bridging Botswana's Digital Divide
+            </h2>
+            <p className="text-muted-foreground mt-4 leading-relaxed">
+              From the bustling streets of Gaborone to the remote villages of the Kalahari, BOCRA ensures that every Motswana has access to reliable, affordable communications services. Our regulatory framework drives infrastructure investment and digital inclusion across the nation.
+            </p>
+            <div className="grid grid-cols-2 gap-4 mt-6">
+              <div className="neu-card-sm p-4">
+                <Phone className="w-5 h-5 text-primary mb-2" />
+                <p className="font-semibold text-foreground text-sm">Mobile Coverage</p>
+                <p className="text-xs text-muted-foreground mt-1">98% population coverage nationwide</p>
               </div>
-            </Link>
-          ))}
+              <div className="neu-card-sm p-4">
+                <Wifi className="w-5 h-5 text-accent mb-2" />
+                <p className="font-semibold text-foreground text-sm">Broadband Growth</p>
+                <p className="text-xs text-muted-foreground mt-1">45% internet penetration and growing</p>
+              </div>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <img src={telecomEngineer} alt="Motswana telecom engineer servicing rural tower" className="rounded-2xl object-cover h-48 w-full" />
+            <img src={digitalCommunity} alt="Batswana youth at a digital community hub" className="rounded-2xl object-cover h-48 w-full" />
+            <img src={gaboroneSkyline} alt="Gaborone skyline with telecommunications towers" className="rounded-2xl object-cover h-48 w-full col-span-2" />
+          </div>
         </motion.div>
       </section>
 
+      {/* Services */}
+      <section className="bg-card/30 border-y border-border">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-24">
+          <motion.div variants={fadeUp} className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-foreground tracking-tight">Our Services</h2>
+            <p className="text-muted-foreground mt-2 max-w-xl mx-auto">
+              Everything you need to interact with BOCRA, streamlined into one platform.
+            </p>
+          </motion.div>
+          <motion.div variants={fadeUp} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {services.map((s) => (
+              <Link key={s.title} to={s.path}>
+                <div className="glass-panel p-6 hover-lift group cursor-pointer h-full">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                    <s.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="font-semibold text-foreground text-base">{s.title}</h3>
+                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{s.desc}</p>
+                  <div className="flex items-center gap-1 mt-4 text-xs font-medium text-primary">
+                    {s.title === "Tenders" ? "Browse tenders" : "Sign in to access"} <ChevronRight className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
       {/* CTA */}
-      <section className="max-w-7xl mx-auto px-4 md:px-6 pb-16 md:pb-24">
+      <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-24">
         <motion.div variants={fadeUp} className="neu-card p-8 md:p-12 text-center relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5" />
           <div className="relative">
