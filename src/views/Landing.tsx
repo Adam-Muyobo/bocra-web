@@ -31,6 +31,27 @@ const stats = [
   { value: "2M+", label: "Citizens Served", icon: Users },
 ];
 
+const publicUpdates = [
+  {
+    title: "Digital Services Platform Now Live",
+    summary: "Citizens, organizations, and operators can now begin account registration online before completing detailed BOCRA onboarding.",
+    link: "/news",
+    category: "Announcement",
+  },
+  {
+    title: "5G Spectrum Consultation Open",
+    summary: "Stakeholders can review the latest consultation direction and prepare submissions through the BOCRA digital experience.",
+    link: "/news",
+    category: "Consultation",
+  },
+  {
+    title: "What You Can Do Without Signing In",
+    summary: "Browse tenders, read BOCRA updates, and review public service information before creating an account or signing in.",
+    link: "/about",
+    category: "Guide",
+  },
+];
+
 export default function Landing() {
   return (
     <motion.div initial="hidden" animate="visible" variants={stagger}>
@@ -149,6 +170,35 @@ export default function Landing() {
             ))}
           </motion.div>
         </div>
+      </section>
+
+      {/* Public updates */}
+      <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20">
+        <motion.div variants={fadeUp} className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-10">
+          <div>
+            <h2 className="text-3xl font-bold text-foreground tracking-tight">Public News & Service Details</h2>
+            <p className="text-muted-foreground mt-2 max-w-2xl">
+              You do not need to sign in first to keep up with BOCRA updates, public notices, and service information.
+            </p>
+          </div>
+          <Link to="/news" className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline">
+            View all updates <ChevronRight className="w-4 h-4" />
+          </Link>
+        </motion.div>
+        <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {publicUpdates.map((update) => (
+            <Link key={update.title} to={update.link}>
+              <div className="glass-panel h-full p-6 hover-lift">
+                <span className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">{update.category}</span>
+                <h3 className="mt-4 text-lg font-semibold text-foreground leading-snug">{update.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{update.summary}</p>
+                <div className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-primary">
+                  Read more <ChevronRight className="w-4 h-4" />
+                </div>
+              </div>
+            </Link>
+          ))}
+        </motion.div>
       </section>
 
       {/* CTA */}

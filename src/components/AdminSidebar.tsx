@@ -1,9 +1,15 @@
+"use client";
+
+/*
+ * Renders the BOCRA admin navigation and clears session state when signing out.
+ */
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard, FileText, Briefcase, AlertTriangle, Users,
   ChevronLeft, ChevronRight, Shield, LogOut,
 } from "lucide-react";
+import { useAuth } from "@/components/AuthProvider";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -17,6 +23,8 @@ const navItems = [
 export function AdminSidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { signOut } = useAuth();
 
   return (
     <aside
@@ -64,13 +72,17 @@ export function AdminSidebar() {
 
       {/* Bottom */}
       <div className="p-3 border-t border-border space-y-1">
-        <Link
-          to="/"
+        <button
+          type="button"
+          onClick={() => {
+            signOut();
+            navigate("/");
+          }}
           className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
         >
           <LogOut className="w-5 h-5 flex-shrink-0" />
           {!collapsed && <span>Sign Out</span>}
-        </Link>
+        </button>
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="w-full flex items-center justify-center py-2 rounded-xl text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
