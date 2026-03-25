@@ -3,6 +3,7 @@ import { Shield, Target, Eye, Users, Building, Award } from "lucide-react";
 import professionalWoman from "@/assets/professional-woman.jpg";
 import partnership from "@/assets/partnership.jpg";
 import gaboroneSkyline from "@/assets/gaborone-skyline.jpg";
+import { BackLink } from "@/components/BackLink";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 16, filter: "blur(4px)" },
@@ -20,6 +21,12 @@ const leadership = [
 export default function About() {
   return (
     <motion.div initial="hidden" animate="visible" variants={stagger}>
+      <div className="max-w-7xl mx-auto px-4 md:px-6 pt-6 relative z-10">
+        <motion.div variants={fadeUp}>
+          <BackLink to="/" label="Back to homepage" />
+        </motion.div>
+      </div>
+
       {/* Hero with image */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">

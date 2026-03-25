@@ -1,12 +1,14 @@
 /*
- * Renders the BOCRA login form and authenticates against the Spring Boot API.
+ * Renders the BOCRA login form and redirects users into onboarding or their target workspace.
  */
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Eye, EyeOff, ArrowRight } from "lucide-react";
+import { ArrowRight, Eye, EyeOff } from "lucide-react";
+import { BackLink } from "@/components/BackLink";
 import { toast } from "@/components/ui/sonner";
-import { login, persistSession } from "@/lib/api";
+import { login } from "@/lib/api";
+import { useAuth } from "@/components/AuthProvider";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 16, filter: "blur(4px)" },
@@ -14,28 +16,35 @@ const fadeUp = {
 };
 
 export default function Login() {
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { setSession } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
 
     try {
       setIsSubmitting(true);
-      const response = await login({ email, password });
-      const role = response.user.user.role;
+      const response = await login({ identifier, password });
+      const { role, profileCompleted } = response.user.user;
 
-      if (isAdmin && !["ADMIN", "SUPER_ADMIN", "STAFF", "REVIEWER"].includes(role)) {
+      if (isAdmin && !["ADMIN", "SUPER_ADMIN"].includes(role)) {
         toast.error("This account does not have admin portal access.");
         return;
       }
 
-      persistSession(response);
+      setSession(response);
       toast.success("Signed in successfully.");
+
+      if (!profileCompleted && response.user.user.userType !== "ADMIN") {
+        navigate("/portal/onboarding");
+        return;
+      }
+
       navigate(isAdmin ? "/admin" : "/portal");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Unable to sign in.");
@@ -46,12 +55,10 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
-        className="w-full max-w-md"
-      >
+      <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.08 } } }} className="w-full max-w-md">
+        <motion.div variants={fadeUp} className="mb-6 flex justify-start">
+          <BackLink to="/" label="Back to homepage" />
+        </motion.div>
         <motion.div variants={fadeUp} className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-3 mb-6">
             <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center">
@@ -59,44 +66,32 @@ export default function Login() {
             </div>
           </Link>
           <h1 className="text-2xl font-bold text-foreground tracking-tight">Welcome back</h1>
-          <p className="text-muted-foreground text-sm mt-1">Sign in to your BOCRA account</p>
+          <p className="text-muted-foreground text-sm mt-1">Sign in with your username or email to continue.</p>
         </motion.div>
 
         <motion.div variants={fadeUp} className="neu-card p-6 md:p-8">
-          {/* Admin/User toggle */}
           <div className="flex rounded-xl bg-muted p-1 mb-6">
-            <button
-              type="button"
-              onClick={() => setIsAdmin(false)}
-              className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${
-                !isAdmin ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
-              }`}
-            >
+            <button type="button" onClick={() => setIsAdmin(false)} className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${!isAdmin ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"}`}>
               User Portal
             </button>
-            <button
-              type="button"
-              onClick={() => setIsAdmin(true)}
-              className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${
-                isAdmin ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
-              }`}
-            >
+            <button type="button" onClick={() => setIsAdmin(true)} className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${isAdmin ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"}`}>
               Admin Portal
             </button>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">Email</label>
+              <label className="block text-sm font-medium text-foreground mb-1.5">Username or Email</label>
               <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                className="w-full px-4 py-2.5 rounded-xl border border-input bg-background text-foreground text-sm outline-none focus:ring-2 focus:ring-ring placeholder:text-muted-foreground"
+                type="text"
+                value={identifier}
+                onChange={(e) => setIdentifier(e.target.value)}
+                placeholder="your.username or you@example.com"
+                className="w-full px-4 py-2.5 rounded-xl border border-input bg-background text-foreground text-sm outline-none focus:ring-2 focus:ring-ring"
                 required
               />
             </div>
+
             <div>
               <label className="block text-sm font-medium text-foreground mb-1.5">Password</label>
               <div className="relative">
@@ -105,43 +100,26 @@ export default function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full px-4 py-2.5 rounded-xl border border-input bg-background text-foreground text-sm outline-none focus:ring-2 focus:ring-ring placeholder:text-muted-foreground pr-10"
+                  className="w-full px-4 py-2.5 rounded-xl border border-input bg-background text-foreground text-sm outline-none focus:ring-2 focus:ring-ring pr-10"
                   required
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center gap-2 text-muted-foreground">
-                <input type="checkbox" className="rounded border-input" />
-                Remember me
-              </label>
-              <button type="button" className="text-primary hover:underline text-xs font-medium">
-                Forgot password?
-              </button>
+            <div className="rounded-2xl border border-dashed border-border bg-muted/40 px-4 py-3 text-sm text-muted-foreground">
+              On your first sign-in, BOCRA will ask you to complete the profile details that will be used in your interactions with the system.
             </div>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full py-2.5 rounded-xl bg-primary text-primary-foreground font-medium text-sm hover:shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2"
-            >
-              {isSubmitting ? "Signing In..." : isAdmin ? "Sign in as Admin" : "Sign In"} <ArrowRight className="w-4 h-4" />
+            <button type="submit" disabled={isSubmitting} className="w-full py-2.5 rounded-xl bg-primary text-primary-foreground font-medium text-sm hover:shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+              {isSubmitting ? "Signing In..." : isAdmin ? "Sign in as Admin" : "Sign In"} <ArrowRight className="h-4 w-4" />
             </button>
           </form>
 
           <p className="text-center text-sm text-muted-foreground mt-6">
-            Don't have an account?{" "}
-            <Link to="/register" className="text-primary font-medium hover:underline">
-              Create one
-            </Link>
+            Don&apos;t have an account? <Link to="/register" className="text-primary font-medium hover:underline">Create one</Link>
           </p>
         </motion.div>
       </motion.div>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Briefcase, Calendar, Search, Eye, ArrowRight } from "lucide-react";
+import { BackLink } from "@/components/BackLink";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 16, filter: "blur(4px)" },
@@ -31,6 +32,10 @@ export default function PublicTenders() {
 
   return (
     <motion.div initial="hidden" animate="visible" variants={stagger} className="max-w-5xl mx-auto px-4 md:px-6 py-16 space-y-8">
+      <motion.div variants={fadeUp}>
+        <BackLink to="/" label="Back to homepage" />
+      </motion.div>
+
       <motion.div variants={fadeUp}>
         <h1 className="text-3xl font-bold text-foreground tracking-tight">Open Tenders</h1>
         <p className="text-muted-foreground mt-1">Browse current BOCRA procurement opportunities.</p>

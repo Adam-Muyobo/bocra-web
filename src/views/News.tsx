@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Calendar, ArrowRight, Tag } from "lucide-react";
+import { BackLink } from "@/components/BackLink";
 import digitalCommunity from "@/assets/digital-community.jpg";
 import telecomEngineer from "@/assets/telecom-engineer.jpg";
 
@@ -62,6 +63,9 @@ export default function News() {
 
   return (
     <motion.div initial="hidden" animate="visible" variants={stagger} className="max-w-7xl mx-auto px-4 md:px-6 py-16 space-y-12">
+      <motion.div variants={fadeUp}>
+        <BackLink to="/" label="Back to homepage" />
+      </motion.div>
       <motion.div variants={fadeUp}>
         <h1 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">News & Announcements</h1>
         <p className="text-muted-foreground mt-2">Stay updated with the latest from BOCRA.</p>
