@@ -46,6 +46,11 @@ npm run dev
 
 Open `http://localhost:3000`.
 
+Local API expectation:
+
+- frontend: `http://localhost:3000`
+- backend API: `http://localhost:8081/api/v1`
+
 ## Scripts
 
 - `npm run dev` - start the Next.js dev server
@@ -60,7 +65,15 @@ Open `http://localhost:3000`.
 
 This repository is the frontend application only.
 
-The planned backend will be a separate Spring Boot service backed by MySQL and enhanced with Spring AI. A practical production architecture for this project would include:
+The backend is a separate Spring Boot service backed by MySQL. The current deployment flow is:
+
+- frontend hosted on Vercel
+- backend API hosted on Render
+- production MySQL hosted on Aiven
+
+The frontend connects to the backend through `NEXT_PUBLIC_API_BASE_URL`.
+
+A practical production architecture for this project includes:
 
 - Spring Boot REST APIs for authentication, licensing, complaints, tenders, domains, spectrum, and document services
 - Spring Security for authentication, authorization, and role-based access to portal and admin features
@@ -69,6 +82,13 @@ The planned backend will be a separate Spring Boot service backed by MySQL and e
 - File/document storage for attachments, templates, and public downloads
 - API integration between this Next.js frontend and the Spring Boot backend via `NEXT_PUBLIC_API_BASE_URL`
 
+## Environment configuration
+
+Use environment variables rather than hardcoded URLs:
+
+- local development: `NEXT_PUBLIC_API_BASE_URL=http://localhost:8081/api/v1`
+- Vercel production: `NEXT_PUBLIC_API_BASE_URL=https://<your-render-api-domain>/api/v1`
+
 ## Current status
 
-The frontend is a high-fidelity prototype with mocked data and UI-driven flows. Authentication, persistence, external integrations, and the Spring Boot API are not implemented in this repo yet.
+The frontend is now integrated with the Spring Boot API for authentication and profile flows. Production deployment should point Vercel to the Render API URL through `NEXT_PUBLIC_API_BASE_URL`.
